@@ -1,0 +1,59 @@
+Traceback (most recent call last):
+  File "training_script.py", line 13, in <module>
+    import ray
+ModuleNotFoundError: No module named 'ray'
+1 GPUs are available.
+1 GPUs are available.
+Traceback (most recent call last):
+  File "training_script.py", line 15, in <module>
+    import tf_models
+  File "/home/ew423/ai-economist/tutorials/rllib/tf_models.py", line 12, in <module>
+    from ray.rllib.models.tf.recurrent_tf_modelv2 import (
+ModuleNotFoundError: No module named 'ray.rllib.models.tf.recurrent_tf_modelv2'
+/home/ew423/anaconda3/envs/rllib-training/lib/python3.7/site-packages/ale_py/roms/utils.py:90: DeprecationWarning: SelectableGroups dict interface is deprecated. Use select.
+  for external in metadata.entry_points().get(self.group, []):
+/home/ew423/anaconda3/envs/rllib-training/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:516: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint8 = np.dtype([("qint8", np.int8, 1)])
+/home/ew423/anaconda3/envs/rllib-training/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:517: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint8 = np.dtype([("quint8", np.uint8, 1)])
+/home/ew423/anaconda3/envs/rllib-training/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:518: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint16 = np.dtype([("qint16", np.int16, 1)])
+/home/ew423/anaconda3/envs/rllib-training/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:519: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
+/home/ew423/anaconda3/envs/rllib-training/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:520: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint32 = np.dtype([("qint32", np.int32, 1)])
+/home/ew423/anaconda3/envs/rllib-training/lib/python3.7/site-packages/tensorflow/python/framework/dtypes.py:525: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  np_resource = np.dtype([("resource", np.ubyte, 1)])
+/home/ew423/anaconda3/envs/rllib-training/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:541: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint8 = np.dtype([("qint8", np.int8, 1)])
+/home/ew423/anaconda3/envs/rllib-training/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:542: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint8 = np.dtype([("quint8", np.uint8, 1)])
+/home/ew423/anaconda3/envs/rllib-training/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:543: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint16 = np.dtype([("qint16", np.int16, 1)])
+/home/ew423/anaconda3/envs/rllib-training/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:544: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_quint16 = np.dtype([("quint16", np.uint16, 1)])
+/home/ew423/anaconda3/envs/rllib-training/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:545: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  _np_qint32 = np.dtype([("qint32", np.int32, 1)])
+/home/ew423/anaconda3/envs/rllib-training/lib/python3.7/site-packages/tensorboard/compat/tensorflow_stub/dtypes.py:550: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
+  np_resource = np.dtype([("resource", np.ubyte, 1)])
+2021-11-10 00:15:14,020	INFO resource_spec.py:212 -- Starting Ray with 13.87 GiB memory available for workers and up to 6.94 GiB for objects. You can adjust these settings with ray.init(memory=<bytes>, object_store_memory=<bytes>).
+2021-11-10 00:15:14,381	INFO services.py:1148 -- View the Ray dashboard at [1m[32mlocalhost:8265[39m[22m
+2021-11-10 00:15:14,973 seed (final): 21858000
+1 GPUs are available.
+1 GPUs are available.
+Traceback (most recent call last):
+  File "training_script.py", line 276, in <module>
+    trainer = build_trainer(run_config)
+  File "training_script.py", line 71, in build_trainer
+    dummy_env = RLlibEnvWrapper(env_config)
+  File "/home/ew423/ai-economist/tutorials/rllib/env_wrapper.py", line 68, in __init__
+    self.env = foundation.make_env_instance(**self.env_config_dict)
+  File "/home/ew423/anaconda3/envs/rllib-training/lib/python3.7/site-packages/ai_economist/foundation/__init__.py", line 18, in make_env_instance
+    return scenario_class(**kwargs)
+  File "/home/ew423/anaconda3/envs/rllib-training/lib/python3.7/site-packages/ai_economist/foundation/scenarios/simple_wood_and_stone/layout_from_file.py", line 85, in __init__
+    super().__init__(*base_env_args, **base_env_kwargs)
+  File "/home/ew423/anaconda3/envs/rllib-training/lib/python3.7/site-packages/ai_economist/foundation/base/base_env.py", line 312, in __init__
+    component_cls = component_registry.get(component_name)
+  File "/home/ew423/anaconda3/envs/rllib-training/lib/python3.7/site-packages/ai_economist/foundation/base/registrar.py", line 80, in get
+    raise KeyError('"{}" is not a name of a registered class'.format(cls_name))
+KeyError: '"GetEducated" is not a name of a registered class'
