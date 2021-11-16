@@ -1,7 +1,7 @@
 import numpy as np
 from ai_economist.foundation.base.base_component import BaseComponent, component_registry
+
 @component_registry.add
-    
 class GetEducated(BaseComponent):
     """
     Environments expand the agents' state/action spaces by querying:
@@ -37,6 +37,7 @@ class GetEducated(BaseComponent):
         self.education_labor = float(education_labor)
         assert self.education_labor >= 0
         # self.skill = int(skill)
+        # self.number_times_educated = 0
         self.educates = []
 
     def agent_can_get_educated(self, agent):
@@ -46,9 +47,9 @@ class GetEducated(BaseComponent):
         if agent.state["inventory"]["Coin"] < self.tuition:
             return False
 
-        # Do nothing if skill is already max
-        if True: # TODO see how to get skill
-            return False
+        # # Do nothing if skill is already max
+        # if True: # TODO see how to get skill
+        #     return False
 
         # If we made it here, the agent can go to college.
         return True
@@ -75,7 +76,24 @@ class GetEducated(BaseComponent):
         raise NotImplementedError
 
     def additional_reset_steps(self):
-        self.available_wood_units = 0
+        # reset skill level
+        world = self.world
+        for agent in world.agents:
+            if self.skill_dist == "none":
+                    sampled_skill = 1
+                    pay_rate = 1
+            elif self.skill_dist == "pareto":
+                sampled_skill = np.random.pareto(4)
+                pay_rate = np.minimum(PMSM, (PMSM - 1) * sampled_skill + 1)
+            elif self.skill_dist == "lognormal":
+                sampled_skill = np.random.lognormal(-1, 0.5)
+                pay_rate = np.minimum(PMSM, (PMSM - 1) * sampled_skill + 1)
+            else:
+                raise NotImplementedError
+
+            agent.state["build_skill"] = float(sampled_skill)
+
+            self.sampled_skills[agent.idx] = sampled_skill
 
     def get_n_actions(self, agent_cls_name):
         """
@@ -137,6 +155,8 @@ class GetEducated(BaseComponent):
                     # Incur the labor cost for going to school
                     agent.state["endogenous"]["Labor"] += self.education_labor
 
+                    # self.number_times_educated += 1
+
             else:
                 raise ValueError
 
@@ -147,7 +167,8 @@ class GetEducated(BaseComponent):
         for agent in self.world.agents:
             obs_dict[agent.idx] = {
                 "skill_gain": self.skill_gain,
-                "tuition": self.tuition
+                "tuition": self.tuition,
+                "build_skill": self.sampled_skills[agent.idx]
             }
 
         return obs_dict
