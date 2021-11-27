@@ -327,9 +327,9 @@ if __name__ == "__main__":
         )
 
         if episodes_per_replica == 1 or (episodes_per_replica % dense_log_frequency) == 0:
-            actor_reward_stats = actor_reward_stats + curr_iter + "," + result["policy_reward_max"]["a"] + "," + result["policy_reward_mean"]["a"] + "," + result["policy_reward_min"]["a"] +"\n"
-            policymaker_reward_stats = policymaker_reward_stats curr_iter + "," + result["policy_reward_max"]["a"] + "," + result["policy_reward_mean"]["a"] + "," + result["policy_reward_min"]["a"] +"\n"
-            tax_policy_per_period = tax_policy_per_period + ","
+            actor_reward_stats = actor_reward_stats + curr_iter + "," + result["policy_reward_max"]["a"] + "," + result["policy_reward_mean"]["a"] + "," + result["policy_reward_min"]["a"] + "\n"
+            policymaker_reward_stats = policymaker_reward_stats curr_iter + "," + result["policy_reward_max"]["a"] + "," + result["policy_reward_mean"]["a"] + "," + result["policy_reward_min"]["a"] + "\n"
+            tax_policy_per_period = tax_policy_per_period + "," + trainer.previous_episode_dense_log["PeriodicTax"]["schedule"] + "," + trainer.previous_episode_dense_log["PeriodicTax"]["cutoffs"] + "\n"
         
         # === Saez logic ===
         maybe_sync_saez_buffer(trainer, result, run_config)
@@ -347,6 +347,15 @@ if __name__ == "__main__":
     saving.save_snapshot(trainer, ckpt_dir)
     saving.save_tf_model_weights(trainer, ckpt_dir, global_step, suffix="agent")
     saving.save_tf_model_weights(trainer, ckpt_dir, global_step, suffix="planner")
+
+    # logging files
+    with open('actor_reward_stats.csv','wb') as file:
+        file.write(actor_reward_stats)
+    with open('policymaker_reward_stats.csv', 'wb') as file:
+        file.write(policymaker_reward_stats)
+    with open('tax_policy_per_period.csv', 'wb') as file:
+        file.write(tax_policy_per_period)
+
     logger.info("Final snapshot saved! All done.")
 
     ray.shutdown()  # shutdown Ray after use
