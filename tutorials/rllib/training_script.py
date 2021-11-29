@@ -327,7 +327,7 @@ if __name__ == "__main__":
                 result["episodes_total"] // result["episodes_this_iter"]
             )
         else: 
-            episodes_per_replica = 0
+            episodes_per_replica = -1
 
         if episodes_per_replica == 1 or (episodes_per_replica % dense_log_frequency) == 0:
             actor_reward_stats = actor_reward_stats + str(curr_iter) + "," + str(result["policy_reward_max"]["a"]) + "," + str(result["policy_reward_mean"]["a"]) + "," + str(result["policy_reward_min"]["a"]) + "\n"
