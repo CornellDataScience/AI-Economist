@@ -1,0 +1,4 @@
+Ssh name@server
+Conda activate ai-economist
+cd ai-economist/tutorials/rllib/
+Python training_script.py --run-dir phase2
