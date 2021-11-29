@@ -1,5 +1,9 @@
 import numpy as np
-from ai_economist.foundation.base.base_component import BaseComponent, component_registry
+
+from ai_economist.foundation.base.base_component import (
+    BaseComponent,
+    component_registry,
+)
 
 @component_registry.add
 class GetEducated(BaseComponent):
@@ -19,7 +23,7 @@ class GetEducated(BaseComponent):
         additional_reset_steps
     """
     name = "GetEducated"
-    required_entities = ["Coin", "Labor", "build_skill"]  
+    required_entities = ["Coin", "Labor"]  
     agent_subclasses = ["BasicMobileAgent"]
 
     def __init__(
@@ -27,17 +31,20 @@ class GetEducated(BaseComponent):
         *base_component_args,
         tuition=100, # same tuition cost as building 10 houses <- tweak later
         education_labor=100.0,
-        skill_gain = 1
+        skill_gain = 1,
         **base_component_kwargs
     ):
         super().__init__(*base_component_args, **base_component_kwargs)
         self.tuition = int(tuition)
         self.skill_gain = float(skill_gain)
+        self.skill_dist = "pareto"
+        self.PMSM = 1
         assert self.tuition >= 0
         self.education_labor = float(education_labor)
         assert self.education_labor >= 0
         # self.skill = int(skill)
         # self.number_times_educated = 0
+        self.sampled_skills = {}
         self.educates = []
 
     def agent_can_get_educated(self, agent):
@@ -84,10 +91,10 @@ class GetEducated(BaseComponent):
                     pay_rate = 1
             elif self.skill_dist == "pareto":
                 sampled_skill = np.random.pareto(4)
-                pay_rate = np.minimum(PMSM, (PMSM - 1) * sampled_skill + 1)
+                pay_rate = np.minimum(self.PMSM, (self.PMSM - 1) * sampled_skill + 1)
             elif self.skill_dist == "lognormal":
                 sampled_skill = np.random.lognormal(-1, 0.5)
-                pay_rate = np.minimum(PMSM, (PMSM - 1) * sampled_skill + 1)
+                pay_rate = np.minimum(self.PMSM, (self.PMSM - 1) * sampled_skill + 1)
             else:
                 raise NotImplementedError
 
@@ -116,7 +123,7 @@ class GetEducated(BaseComponent):
         masks = {}
         for agent in self.world.agents:
             masks[agent.idx] = np.array([
-                agent.state["inventory"]["Coin"] >= self.widget_price and self.available_widget_units > 0
+                agent.state["inventory"]["Coin"] >= self.tuition
             ])
 
         return masks
