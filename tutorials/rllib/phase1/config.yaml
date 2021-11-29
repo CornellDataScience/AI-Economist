@@ -16,6 +16,7 @@ env:
       max_num_orders: 5
       order_duration: 50
       order_labor: 0.25
+  - Education:
   - Gather:
       collect_labor: 1
       move_labor: 1
