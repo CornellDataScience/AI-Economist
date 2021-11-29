@@ -322,16 +322,17 @@ if __name__ == "__main__":
         if curr_iter == 1 or result["episodes_this_iter"] > 0:
             logger.info(pretty_print(result))
 
-        episodes_per_replica = (
-            result["episodes_total"] // result["episodes_this_iter"]
-        )
+        if result["episodes_this_iter"] > 0:
+            episodes_per_replica = (
+                result["episodes_total"] // result["episodes_this_iter"]
+            )
+        else: 
+            episodes_per_replica = 0
 
         if episodes_per_replica == 1 or (episodes_per_replica % dense_log_frequency) == 0:
             actor_reward_stats = actor_reward_stats + curr_iter + "," + result["policy_reward_max"]["a"] + "," + result["policy_reward_mean"]["a"] + "," + result["policy_reward_min"]["a"] + "\n"
             policymaker_reward_stats = policymaker_reward_stats + curr_iter + "," + result["policy_reward_max"]["a"] + "," + result["policy_reward_mean"]["a"] + "," + result["policy_reward_min"]["a"] + "\n"
             tax_policy_per_period = tax_policy_per_period + curr_iter + "," + trainer.previous_episode_dense_log["PeriodicTax"]["schedule"] + "," + trainer.previous_episode_dense_log["PeriodicTax"]["cutoffs"] + "\n"
-        
-        print(result)
 
         # === Saez logic ===
         maybe_sync_saez_buffer(trainer, result, run_config)
