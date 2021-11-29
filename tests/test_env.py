@@ -10,7 +10,7 @@ Unit tests for the wood and stone scenario + basic components
 
 import unittest
 
-from ai_economist import foundation
+from ai_economist.foundation import make_env_instance
 
 
 class CreateEnv:
@@ -64,7 +64,7 @@ class CreateEnv:
         }
 
         # Create an environment instance from the config
-        self.env = foundation.make_env_instance(**self.env_config)
+        self.env = make_env_instance(**self.env_config)
 
 
 class TestEnv(unittest.TestCase):
