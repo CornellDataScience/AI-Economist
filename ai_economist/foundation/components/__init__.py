@@ -10,6 +10,7 @@ from . import (
     build,
     continuous_double_auction,
     covid19_components,
+    education,
     move,
     redistribution,
     simple_labor,
