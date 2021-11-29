@@ -9,6 +9,7 @@ import logging
 import os
 import sys
 import time
+import csv
 
 import ray
 from utils import remote, saving
@@ -18,7 +19,7 @@ from env_wrapper import RLlibEnvWrapper
 from ray.rllib.agents.ppo import PPOTrainer
 from ray.tune.logger import NoopLogger, pretty_print
 
-ray.init(log_to_driver=False)
+ray.init(include_dashboard=True, log_to_driver=False)
 
 logging.basicConfig(stream=sys.stdout, format="%(asctime)s %(message)s")
 logger = logging.getLogger("main")
@@ -286,6 +287,12 @@ if __name__ == "__main__":
         num_parallel_episodes_done,
     ) = set_up_dirs_and_maybe_restore(run_dir, run_config, trainer)
 
+    # Strings to be written to CSV files at the end of training
+
+    actor_reward_stats = ""
+    policymaker_reward_stats = ""
+    tax_policy_per_period = ""
+
     # ======================
     # === Start training ===
     # ======================
@@ -315,6 +322,15 @@ if __name__ == "__main__":
         if curr_iter == 1 or result["episodes_this_iter"] > 0:
             logger.info(pretty_print(result))
 
+        episodes_per_replica = (
+            result["episodes_total"] // result["episodes_this_iter"]
+        )
+
+        if episodes_per_replica == 1 or (episodes_per_replica % dense_log_frequency) == 0:
+            actor_reward_stats = actor_reward_stats + curr_iter + "," + result["policy_reward_max"]["a"] + "," + result["policy_reward_mean"]["a"] + "," + result["policy_reward_min"]["a"] + "\n"
+            policymaker_reward_stats = policymaker_reward_stats curr_iter + "," + result["policy_reward_max"]["a"] + "," + result["policy_reward_mean"]["a"] + "," + result["policy_reward_min"]["a"] + "\n"
+            tax_policy_per_period = tax_policy_per_period + "," + trainer.previous_episode_dense_log["PeriodicTax"]["schedule"] + "," + trainer.previous_episode_dense_log["PeriodicTax"]["cutoffs"] + "\n"
+        
         # === Saez logic ===
         maybe_sync_saez_buffer(trainer, result, run_config)
 
@@ -331,6 +347,20 @@ if __name__ == "__main__":
     saving.save_snapshot(trainer, ckpt_dir)
     saving.save_tf_model_weights(trainer, ckpt_dir, global_step, suffix="agent")
     saving.save_tf_model_weights(trainer, ckpt_dir, global_step, suffix="planner")
+
+    # logging files
+    ar_stat_filepath = os.path.join(dense_log_dir, 'actor_reward_stats.csv')
+    with open(ar_stat_filepath,'wb') as file:
+        file.write(actor_reward_stats)
+
+    pr_stat_filepath = os.path.join(dense_log_dir, 'policymaker_reward_stats.csv')
+    with open(pr_stat_filepath, 'wb') as file:
+        file.write(policymaker_reward_stats)
+    
+    tp_stat_filepath = os.path.join(dense_log_dir, 'tax_policy_per_period.csv')
+    with open(tp_stat_filepath, 'wb') as file:
+        file.write(tax_policy_per_period)
+
     logger.info("Final snapshot saved! All done.")
 
     ray.shutdown()  # shutdown Ray after use
