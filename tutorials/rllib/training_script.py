@@ -331,6 +331,8 @@ if __name__ == "__main__":
             policymaker_reward_stats = policymaker_reward_stats + curr_iter + "," + result["policy_reward_max"]["a"] + "," + result["policy_reward_mean"]["a"] + "," + result["policy_reward_min"]["a"] + "\n"
             tax_policy_per_period = tax_policy_per_period + curr_iter + "," + trainer.previous_episode_dense_log["PeriodicTax"]["schedule"] + "," + trainer.previous_episode_dense_log["PeriodicTax"]["cutoffs"] + "\n"
         
+        print(result)
+
         # === Saez logic ===
         maybe_sync_saez_buffer(trainer, result, run_config)
 
