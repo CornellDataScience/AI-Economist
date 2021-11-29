@@ -349,11 +349,16 @@ if __name__ == "__main__":
     saving.save_tf_model_weights(trainer, ckpt_dir, global_step, suffix="planner")
 
     # logging files
-    with open('actor_reward_stats.csv','wb') as file:
+    ar_stat_filepath = os.path.join(dense_log_dir, 'actor_reward_stats.csv')
+    with open(ar_stat_filepath,'wb') as file:
         file.write(actor_reward_stats)
-    with open('policymaker_reward_stats.csv', 'wb') as file:
+
+    pr_stat_filepath = os.path.join(dense_log_dir, 'policymaker_reward_stats.csv')
+    with open(pr_stat_filepath, 'wb') as file:
         file.write(policymaker_reward_stats)
-    with open('tax_policy_per_period.csv', 'wb') as file:
+    
+    tp_stat_filepath = os.path.join(dense_log_dir, 'tax_policy_per_period.csv')
+    with open(tp_stat_filepath, 'wb') as file:
         file.write(tax_policy_per_period)
 
     logger.info("Final snapshot saved! All done.")
