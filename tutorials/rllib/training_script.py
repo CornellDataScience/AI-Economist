@@ -350,15 +350,15 @@ if __name__ == "__main__":
 
     # logging files
     ar_stat_filepath = os.path.join(dense_log_dir, 'actor_reward_stats.csv')
-    with open(ar_stat_filepath,'wb') as file:
+    with open(ar_stat_filepath,'w') as file:
         file.write(actor_reward_stats)
 
     pr_stat_filepath = os.path.join(dense_log_dir, 'policymaker_reward_stats.csv')
-    with open(pr_stat_filepath, 'wb') as file:
+    with open(pr_stat_filepath, 'w') as file:
         file.write(policymaker_reward_stats)
     
     tp_stat_filepath = os.path.join(dense_log_dir, 'tax_policy_per_period.csv')
-    with open(tp_stat_filepath, 'wb') as file:
+    with open(tp_stat_filepath, 'w') as file:
         file.write(tax_policy_per_period)
 
     logger.info("Final snapshot saved! All done.")
