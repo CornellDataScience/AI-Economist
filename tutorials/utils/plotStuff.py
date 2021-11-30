@@ -1,7 +1,10 @@
-import os
+import numpy as np
+import matplotlib.pyplot as plt
+from IPython import display
 import plotting
+import os
 
-base = "ai-economist/tutorials/rllib/phase1/dense_logs/"
+base = "../rllib/phase1/dense_logs/"
 log_path = os.path.join(base, "logs_0000000024600000/env000.lz4")
 dense_log = open(log_path, "r")
 fig = plotting.vis_world_range(dense_log, t0=0, tN=200, N=5)
