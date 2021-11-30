@@ -6,6 +6,7 @@
 
 from copy import deepcopy
 
+import random
 import numpy as np
 from scipy import signal
 
@@ -129,7 +130,7 @@ class LayoutFromFile(BaseEnvironment):
 
         # How much coin do agents begin with at upon reset
         self.starting_agent_coin = float(starting_agent_coin)
-        assert self.starting_agent_coin >= 0.0
+        assert self.starting_agent_coin >= -1.0
 
         # Controls the diminishing marginal utility of coin.
         # isoelastic_eta=0 means no diminishing utility.
@@ -348,7 +349,10 @@ class LayoutFromFile(BaseEnvironment):
             agent.state["escrow"] = {k: 0 for k in agent.inventory.keys()}
             agent.state["endogenous"] = {k: 0 for k in agent.endogenous.keys()}
             # Add starting coin
-            agent.state["inventory"]["Coin"] = float(self.starting_agent_coin)
+            if self.starting_agent_coin == -1.0:
+                agent.state["inventory"]["Coin"] = random.uniform(0.0, 250.0)
+            else:
+                agent.state["inventory"]["Coin"] = float(self.starting_agent_coin)
 
         self.world.planner.state["inventory"] = {
             k: 0 for k in self.world.planner.inventory.keys()
