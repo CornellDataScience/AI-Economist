@@ -1,14 +1,15 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from IPython import display
+from ai_economist.foundation.utils import load_episode_log
 import plotting
 import os
 
 base = "../rllib/phase1/dense_logs/"
 log_path = os.path.join(base, "logs_0000000024600000/env000.lz4")
-dense_log = open(log_path, "r")
+dense_log = load_episode_log(log_path)
 fig = plotting.vis_world_range(dense_log, t0=0, tN=200, N=5)
-fig.savefig('vis_world_range.png')
+fig.savefig('vis_world_range.png') 
 
 
 # from ai_economist import foundation
