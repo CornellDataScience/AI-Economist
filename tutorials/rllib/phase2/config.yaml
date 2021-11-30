@@ -20,6 +20,8 @@ env:
       collect_labor: 1
       move_labor: 1
       skill_dist: pareto
+  - GetEducated:
+      tuition: 100
   - PeriodicBracketTax:
       bracket_spacing: us-federal
       disable_taxes: false
