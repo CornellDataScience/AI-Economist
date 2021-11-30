@@ -1,7 +1,7 @@
 import os
 import plotting
 
-base = "ai-economist/tree/training/gpu1/11_10_2021/tutorials/rllib/phase1/dense_logs/"
+base = "ai-economist/tutorials/rllib/phase1/dense_logs/"
 log_path = os.path.join(base, "logs_0000000024600000/env000.lz4")
 dense_log = open(log_path, "r")
 fig = plotting.vis_world_range(dense_log, t0=0, tN=200, N=5)
