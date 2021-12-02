@@ -449,3 +449,22 @@ def plot_for_each_n(y_fun, n, ax=None):
         ax.plot(y_fun(i), color=cmap(i), label=i)
     ax.legend()
     ax.grid(b=True)
+
+def get_tax_from_log(log):
+    csv_string = ""
+    if "PeriodicTax" in log:
+        for t, taxes in enumerate(log["PeriodicTax"]):
+            if isinstance(taxes, dict):
+                csv_string = csv_string + (",".join(str(e) for e in taxes["schedule"])) + (",".join(str(e) for e in taxes["cutoffs"])) + "\n"
+    return csv_string
+
+def get_all_taxes_from_all_logs(dense_log_dir):
+    csv_file = os.path.join(dense_log_dir, "tax_info.csv")
+    csv_string = ""
+    for root, dirs, files in os.walk(dense_log_dir):
+        for log_file in files:
+            file_path = os.path.join(root, log_file)
+            dense_log = load_episode_log(file_path)
+            csv_string = csv_string + get_tax_from_log(dense_log)
+    with open(csv_file,'w') as file:
+        file.write(csv_string)
