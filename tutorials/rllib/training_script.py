@@ -10,6 +10,7 @@ import os
 import sys
 import time
 import csv
+import gc
 
 import ray
 from utils import remote, saving
@@ -343,6 +344,8 @@ if __name__ == "__main__":
         step_last_ckpt = maybe_save(
             trainer, result, ckpt_frequency, ckpt_dir, step_last_ckpt
         )
+
+        gc.collect()
 
     # Finish up
     logger.info("Completing! Saving final snapshot...\n\n")
