@@ -45,7 +45,7 @@ env:
   planner_gets_spatial_info: false
   planner_reward_type: coin_eq_times_productivity
   scenario_name: layout_from_file/simple_wood_and_stone
-  starting_agent_coin: 0
+  starting_agent_coin: -1.0
   world_size:
   - 25
   - 25
