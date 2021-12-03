@@ -50,7 +50,7 @@ env:
   - 25
   - 25
 general:
-  ckpt_frequency_steps: 20000000
+  ckpt_frequency_steps: 100000
   cpus: 15
   episodes: 100000
   gpus: 0
