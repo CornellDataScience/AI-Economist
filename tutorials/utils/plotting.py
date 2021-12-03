@@ -448,7 +448,7 @@ def get_tax_from_log(log):
     if "PeriodicTax" in log:
         for t, taxes in enumerate(log["PeriodicTax"]):
             if isinstance(taxes, dict):
-                csv_string = csv_string + (",".join(str(e) for e in taxes["schedule"])) + (",".join(str(e) for e in taxes["cutoffs"])) + "\n"
+                csv_string = csv_string + (",".join(str(e) for e in taxes["schedule"])) + "," + (",".join(str(e) for e in taxes["cutoffs"])) + "\n"
     return csv_string
 
 def get_all_taxes_from_all_logs(dense_log_dir):
