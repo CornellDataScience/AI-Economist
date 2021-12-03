@@ -6,7 +6,7 @@ import plotting
 import os
 
 base = "../rllib/phase2/dense_logs/"
-log_path = os.path.join(base, "logs_0000000020004000/env000.lz4")
+log_path = os.path.join(base, "logs_0000000036486000/env000.lz4")
 dense_log = load_episode_log(log_path)
 (fig0, fig1, fig2), incomes, endows, c_trades, all_builds = plotting.breakdown(dense_log)
 fig = plotting.vis_world_range(dense_log, t0=0, tN=200, N=5)
