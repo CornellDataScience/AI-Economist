@@ -1,46 +1,19 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from IPython import display
+from ai_economist.foundation.utils import load_episode_log
 import plotting
+import os
 
-def do_plot(env, ax, fig):
-    """Plots world state during episode sampling."""
-    plotting.plot_env_state(env, ax)
-    ax.set_aspect('equal')
-    display.display(fig)
-    display.clear_output(wait=True)
-
-def play_random_episode(env, plot_every=100, do_dense_logging=False):
-    """Plays an episode with randomly sampled actions.
-    
-    Demonstrates gym-style API:
-        obs                  <-- env.reset(...)         # Reset
-        obs, rew, done, info <-- env.step(actions, ...) # Interaction loop
-    
-    """
-    fig, ax = plt.subplots(1, 1, figsize=(10, 10))
-
-    # Reset
-    obs = env.reset(force_dense_logging=do_dense_logging)
-
-    # Interaction loop (w/ plotting)
-    for t in range(env.episode_length):
-        actions = sample_random_actions(env, obs)
-        obs, rew, done, info = env.step(actions)
-
-        if ((t+1) % plot_every) == 0:
-            do_plot(env, ax, fig)
-
-    if ((t+1) % plot_every) != 0:
-        do_plot(env, ax, fig)        
-
-
-# Play another episode. This time, tell the environment to do dense logging
-play_random_episode(env, plot_every=100, do_dense_logging=True)
-
-# Grab the dense log from the env
-dense_log = env.previous_episode_dense_log
+base = "../rllib/phase1/dense_logs/"
+file_loc = "../rllib/phase1/ckpts/"
+log_path = os.path.join(base, "logs_0000000000486000/env000.lz4")
+dense_log = load_episode_log(log_path)
+(fig0, fig1, fig2), incomes, endows, c_trades, all_builds = plotting.breakdown(dense_log)
 fig = plotting.vis_world_range(dense_log, t0=0, tN=200, N=5)
-fig.savefig('vis_world_range.png')
-
-# # Use the "breakdown" tool to visualize the world state, agent-wise quantities, movement, and trading events
-# plotting.breakdown(dense_log); 
-
-#CHANGES CHANGES CHANGES
+fig.savefig('vis_world_range_p2_3.png') 
+fig0.savefig('p_2_breakdown6.png')
+fig1.savefig('p_2_breakdown7.png')
+fig2.savefig('p_2_breakdown8.png')
+plotting.get_all_taxes_from_all_logs(base)
+plotting.get_all_rwds_from_all_logs(base)
